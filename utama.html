@@ -1,0 +1,2395 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MULYADI, S.Kom. — Sistem Informasi &amp; Operasional</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Syne"', "sans-serif"],
+              sans: ['"Plus Jakarta Sans"', "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      :root {
+        --purple-accent: #a855f7;
+        --purple-bright: #c084fc;
+      }
+
+      /* Subtle Editorial Grid & Ambient Backdrop */
+      .ambient-grid-dark {
+        background-image:
+          radial-gradient(
+            circle at 18% 12%,
+            rgba(147, 51, 234, 0.16),
+            transparent 42%
+          ),
+          radial-gradient(
+            circle at 82% 38%,
+            rgba(168, 85, 247, 0.12),
+            transparent 45%
+          ),
+          radial-gradient(
+            circle at 50% 85%,
+            rgba(88, 28, 135, 0.18),
+            transparent 50%
+          ),
+          linear-gradient(
+            to right,
+            rgba(192, 132, 252, 0.055) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(192, 132, 252, 0.055) 1px,
+            transparent 1px
+          );
+        background-size:
+          100% 100%,
+          100% 100%,
+          100% 100%,
+          44px 44px,
+          44px 44px;
+      }
+
+      html:not(.dark) .ambient-grid-dark {
+        background-image:
+          radial-gradient(
+            circle at 18% 12%,
+            rgba(147, 51, 234, 0.09),
+            transparent 42%
+          ),
+          radial-gradient(
+            circle at 82% 38%,
+            rgba(168, 85, 247, 0.07),
+            transparent 45%
+          ),
+          radial-gradient(
+            circle at 50% 85%,
+            rgba(126, 34, 206, 0.08),
+            transparent 50%
+          ),
+          linear-gradient(
+            to right,
+            rgba(107, 33, 168, 0.06) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(107, 33, 168, 0.06) 1px,
+            transparent 1px
+          );
+        background-size:
+          100% 100%,
+          100% 100%,
+          100% 100%,
+          44px 44px,
+          44px 44px;
+      }
+
+      /* Subtle corner bracket accent for sections */
+      .section-frame {
+        position: relative;
+      }
+      .section-frame::before {
+        content: "";
+        position: absolute;
+        top: 24px;
+        right: 16px;
+        width: 22px;
+        height: 22px;
+        border-top: 1.5px solid rgba(168, 85, 247, 0.28);
+        border-right: 1.5px solid rgba(168, 85, 247, 0.28);
+        pointer-events: none;
+      }
+
+      /* Marquee */
+      @keyframes marqueeScroll {
+        0% {
+          transform: translateX(0%);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+      .animate-marquee {
+        display: flex;
+        width: max-content;
+        animation: marqueeScroll 24s linear infinite;
+      }
+
+      /* Realistic 3D Box Nametag (Purple & Black Theme) */
+      .box-scene {
+        perspective: 1400px;
+        transform-style: preserve-3d;
+      }
+      .box-card {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .box-card.is-flipped {
+        transform: rotateY(180deg);
+      }
+      .box-face {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        border-radius: 18px;
+        overflow: hidden;
+      }
+      .box-front {
+        transform: translateZ(6px);
+        background:
+          linear-gradient(
+            155deg,
+            rgba(168, 85, 247, 0.22) 0%,
+            rgba(15, 10, 26, 0.92) 42%,
+            rgba(7, 7, 11, 0.98) 100%
+          ),
+          #07070b;
+        box-shadow:
+          inset 0 1px 1px rgba(216, 180, 254, 0.4),
+          inset 0 -2px 6px rgba(0, 0, 0, 0.85),
+          0 0 0 1px rgba(168, 85, 247, 0.32);
+      }
+      .box-back {
+        transform: rotateY(180deg) translateZ(6px);
+        background:
+          linear-gradient(160deg, #3b0764 0%, #1e1035 48%, #09080f 100%),
+          #09080f;
+        box-shadow:
+          inset 0 1px 1px rgba(216, 180, 254, 0.32),
+          inset 0 -2px 6px rgba(0, 0, 0, 0.9),
+          0 0 0 1px rgba(192, 132, 252, 0.35);
+      }
+      .box-rim-left {
+        position: absolute;
+        top: 10px;
+        bottom: 10px;
+        left: 0;
+        width: 12px;
+        transform: rotateY(-90deg) translateZ(6px);
+        transform-origin: left center;
+        background: linear-gradient(
+          180deg,
+          #7e22ce 0%,
+          #3b0764 55%,
+          #09080f 100%
+        );
+        border-radius: 4px;
+      }
+      .box-rim-right {
+        position: absolute;
+        top: 10px;
+        bottom: 10px;
+        right: 0;
+        width: 12px;
+        transform: rotateY(90deg) translateZ(6px);
+        transform-origin: right center;
+        background: linear-gradient(
+          180deg,
+          #a855f7 0%,
+          #4c1d95 55%,
+          #09080f 100%
+        );
+        border-radius: 4px;
+      }
+      .box-rim-bottom {
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: 0;
+        height: 12px;
+        transform: rotateX(-90deg) translateZ(6px);
+        transform-origin: center bottom;
+        background: linear-gradient(
+          90deg,
+          #2e1065 0%,
+          #7e22ce 50%,
+          #2e1065 100%
+        );
+        border-radius: 4px;
+      }
+
+      .card-gloss {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(
+          118deg,
+          transparent 20%,
+          rgba(216, 180, 254, 0.08) 37%,
+          rgba(233, 213, 255, 0.18) 44%,
+          transparent 58%
+        );
+      }
+
+      /* Scroll Reveal Sections */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Grid Item Transitions */
+      .grid-item-anim {
+        opacity: 0;
+        transition:
+          opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .grid-from-left {
+        transform: translateX(-48px);
+      }
+      .grid-from-right {
+        transform: translateX(48px);
+      }
+      .grid-from-up {
+        transform: translateY(32px);
+      }
+      .grid-item-anim.in-view {
+        opacity: 1;
+        transform: translate(0, 0);
+      }
+
+      /* Slide In From Left on Scroll (profesional2.png) */
+      .slide-in-left {
+        opacity: 0;
+        transform: translateX(-76px);
+        transition:
+          opacity 0.78s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.78s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .slide-in-left.is-shown {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    </style>
+  </head>
+  <body
+    class="ambient-grid-dark bg-slate-100 text-slate-900 dark:bg-[#06070a] dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-purple-500 selection:text-white"
+  >
+    <!-- TOP NAVBAR -->
+    <header
+      class="sticky top-0 z-40 border-b border-slate-200/80 dark:border-white/10 bg-white/85 dark:bg-[#06070a]/85 backdrop-blur-md"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between gap-4"
+      >
+        <a
+          href="#"
+          class="font-display font-extrabold tracking-tight text-xl sm:text-2xl uppercase"
+        >
+          MULYADI<span class="text-purple-600 dark:text-purple-400">.</span>
+        </a>
+
+        <nav
+          class="hidden md:flex items-center gap-8 text-xs font-display font-bold tracking-[0.14em] uppercase text-slate-600 dark:text-slate-300"
+        >
+          <a
+            href="#about"
+            class="hover:text-purple-600 dark:hover:text-purple-400 transition"
+            >PROFIL</a
+          >
+          <a
+            href="#journey"
+            class="hover:text-purple-600 dark:hover:text-purple-400 transition"
+            >PENGALAMAN</a
+          >
+          <a
+            href="#projects"
+            class="hover:text-purple-600 dark:hover:text-purple-400 transition"
+            >PROYEK</a
+          >
+          <a
+            href="#certificates"
+            class="hover:text-purple-600 dark:hover:text-purple-400 transition"
+            >SERTIFIKAT</a
+          >
+        </nav>
+
+        <div class="flex items-center gap-2.5">
+          <button
+            id="theme-toggle"
+            type="button"
+            class="px-3.5 py-1.5 rounded-full border border-slate-300 dark:border-white/15 bg-white/80 dark:bg-white/5 hover:border-purple-400 text-xs font-display font-bold uppercase tracking-wider flex items-center gap-1.5 transition cursor-pointer"
+          >
+            <i
+              data-lucide="sun-moon"
+              class="w-4 h-4 text-purple-600 dark:text-purple-400"
+            ></i>
+            <span id="theme-label">DARK</span>
+          </button>
+
+          <a
+            href="#contact"
+            class="px-4 py-1.5 rounded-full bg-purple-600 hover:bg-purple-500 text-white font-display font-extrabold text-xs uppercase tracking-wider transition shadow-sm"
+          >
+            KONTAK ↗
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO EDITORIAL SECTION -->
+      <section
+        class="relative overflow-hidden border-b border-slate-200 dark:border-white/10 pt-10 pb-14"
+      >
+        <div
+          class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[680px] h-[260px] rounded-full bg-purple-600/15 blur-3xl"
+        ></div>
+        <div
+          class="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 text-center font-display font-extrabold text-[15vw] leading-none uppercase tracking-widest text-purple-500/[0.03] select-none"
+        >
+          PORTFOLIO
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-8">
+          <div class="text-center select-none pointer-events-none">
+            <div
+              class="font-display text-6xl sm:text-8xl md:text-[118px] font-extrabold tracking-tighter leading-[0.88] uppercase text-slate-900 dark:text-white"
+            >
+              MULYADI<span class="text-purple-600 dark:text-purple-400">.</span>
+            </div>
+          </div>
+
+          <div
+            class="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 items-end text-sm text-slate-600 dark:text-slate-400"
+          >
+            <div class="md:col-span-5 space-y-1">
+              <p
+                class="font-display font-bold text-xs uppercase tracking-wider"
+              >
+                SARJANA KOMPUTER (S.KOM.) • SISTEM INFORMASI
+              </p>
+              <p class="text-slate-900 dark:text-white font-semibold">
+                <span class="text-purple-600 dark:text-purple-400"
+                  >IPK 3.74</span
+                >
+                •
+                <span class="text-purple-600 dark:text-purple-400"
+                  >Wisudawan &amp; Lulusan Terbaik</span
+                >,
+              </p>
+              <p class="text-slate-900 dark:text-white font-semibold">
+                Tarakan, Kalimantan Utara.
+              </p>
+            </div>
+
+            <div class="md:col-span-2 text-center hidden md:block">
+              <span
+                class="font-display font-bold tracking-[0.2em] text-xs uppercase text-slate-400"
+                >SCROLL TO EXPLORE</span
+              >
+            </div>
+
+            <div
+              class="md:col-span-5 md:text-right space-y-0.5 font-display font-bold uppercase tracking-wider text-xs"
+            >
+              <div>OPERATIONS &amp; PURCHASING</div>
+              <div>INFORMATION SYSTEMS</div>
+              <div>APPLIED AI &amp; WEB DEV</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PURPLE-BLACK MARQUEE STRIP -->
+        <div
+          class="relative z-10 mt-10 bg-gradient-to-r from-purple-700 via-purple-600 to-fuchsia-700 text-white py-3 overflow-hidden border-y border-purple-400/40 font-display text-xs sm:text-sm font-extrabold tracking-[0.16em] uppercase"
+        >
+          <div class="animate-marquee">
+            <span class="mx-6">✦ SISTEM INFORMASI (IPK 3.74)</span>
+            <span class="mx-6">✦ PRODUKSI &amp; PEMBELIAN (6+ TAHUN)</span>
+            <span class="mx-6">✦ CNN &amp; COMPUTER VISION</span>
+            <span class="mx-6">✦ OPERASIONAL &amp; ADMINISTRASI</span>
+            <span class="mx-6">✦ SISTEM INFORMASI (IPK 3.74)</span>
+            <span class="mx-6">✦ PRODUKSI &amp; PEMBELIAN (6+ TAHUN)</span>
+            <span class="mx-6">✦ CNN &amp; COMPUTER VISION</span>
+            <span class="mx-6">✦ OPERASIONAL &amp; ADMINISTRASI</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 01 / RINGKASAN PROFIL -->
+      <section
+        id="about"
+        class="section-frame max-w-7xl mx-auto px-4 sm:px-8 py-20 border-b border-slate-200 dark:border-white/10 reveal overflow-x-clip"
+      >
+        <div
+          class="font-display text-xs font-extrabold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400 mb-8"
+        >
+          01 / RINGKASAN PROFIL
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+          <div class="lg:col-span-4 grid-item-anim grid-from-left space-y-4">
+            <div
+              class="relative rounded-2xl overflow-hidden bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-white/10 shadow-xl backdrop-blur-xs"
+            >
+              <img
+                src="gambar/latarmerah.jpg"
+                alt="Mulyadi, S.Kom."
+                class="w-full aspect-[4/5] object-cover object-top grayscale contrast-125"
+                onerror="
+                  this.src =
+                    'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22500%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%231e1b4b%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%23c084fc%22 font-size=%2220%22 text-anchor=%22middle%22>MULYADI, S.Kom.</text></svg>'
+                "
+              />
+              <div
+                class="absolute bottom-4 right-4 w-20 h-20 rounded-full bg-purple-600 text-white font-display text-xs font-extrabold uppercase flex flex-col items-center justify-center text-center leading-tight shadow-lg rotate-6 border border-purple-300/40"
+              >
+                <span>IPK</span>
+                <span>3.74</span>
+                <span>S.KOM</span>
+              </div>
+              <div
+                class="p-3.5 border-t border-slate-200 dark:border-white/10 flex items-center justify-between text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400"
+              >
+                <span>STMIK PPKIA TRK • WISUDA NOV 2026</span>
+                <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+              </div>
+            </div>
+
+            <!-- HIGHLIGHT KONTAK REKRUTER & DOWNLOAD CV DI BAWAH FOTO -->
+            <div
+              class="rounded-2xl bg-gradient-to-br from-purple-950/90 via-[#150b29]/95 to-[#09070f]/95 border border-purple-400/45 p-4 shadow-[0_12px_30px_rgba(126,34,206,0.28)] space-y-3"
+            >
+              <div class="flex items-center justify-between gap-2">
+                <span
+                  class="inline-flex items-center gap-1.5 font-display text-[11px] font-extrabold uppercase tracking-[0.14em] text-purple-300"
+                >
+                  <span
+                    class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"
+                  ></span>
+                  DIRECT RECRUITER CONTACT
+                </span>
+                <span
+                  id="copy-feedback"
+                  class="text-[11px] font-semibold text-emerald-300 opacity-0 transition-opacity"
+                >
+                  Tersalin!
+                </span>
+              </div>
+
+              <!-- Klik Email -> Gmail Compose -->
+              <div class="flex items-center gap-2">
+                <a
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=mulyadimul36063003@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex-1 min-w-0 group flex items-center justify-between gap-2.5 rounded-xl bg-purple-600/25 hover:bg-purple-600/40 border border-purple-400/40 px-3.5 py-2.5 transition"
+                  title="Klik untuk membuka Gmail"
+                >
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <div
+                      class="w-8 h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-sm"
+                    >
+                      <i data-lucide="mail" class="w-4 h-4"></i>
+                    </div>
+                    <div class="min-w-0">
+                      <div
+                        class="font-display text-[10px] font-extrabold uppercase tracking-wider text-purple-300"
+                      >
+                        GMAIL
+                      </div>
+                      <div class="text-xs font-semibold text-white truncate">
+                        mulyadimul36063003@gmail.com
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="text-purple-200 group-hover:translate-x-0.5 transition text-xs font-bold shrink-0"
+                    >↗</span
+                  >
+                </a>
+
+                <button
+                  type="button"
+                  onclick="copyContact('mulyadimul36063003@gmail.com')"
+                  class="p-2.5 rounded-xl bg-white/5 hover:bg-white/15 border border-purple-400/25 text-purple-200 transition cursor-pointer shrink-0"
+                  title="Salin email"
+                  aria-label="Salin email"
+                >
+                  <i data-lucide="copy" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <!-- Klik Nomor HP -> WhatsApp -->
+              <div class="flex items-center gap-2">
+                <a
+                  href="https://wa.me/6281253293581?text=Halo%20Mulyadi%2C%20saya%20melihat%20portofolio%20Anda."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex-1 min-w-0 group flex items-center justify-between gap-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 border border-purple-300/40 px-3.5 py-2.5 transition shadow-md shadow-purple-950/60"
+                  title="Klik untuk chat via WhatsApp"
+                >
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <div
+                      class="w-8 h-8 rounded-lg bg-black/30 text-white flex items-center justify-center shrink-0"
+                    >
+                      <i data-lucide="phone-call" class="w-4 h-4"></i>
+                    </div>
+                    <div class="min-w-0">
+                      <div
+                        class="font-display text-[10px] font-extrabold uppercase tracking-wider text-purple-100"
+                      >
+                        WHATSAPP
+                      </div>
+                      <div class="text-xs font-extrabold text-white truncate">
+                        +62 812-5329-3581
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="text-white group-hover:translate-x-0.5 transition text-xs font-extrabold shrink-0"
+                    >CHAT ↗</span
+                  >
+                </a>
+
+                <button
+                  type="button"
+                  onclick="copyContact('+6281253293581')"
+                  class="p-2.5 rounded-xl bg-white/5 hover:bg-white/15 border border-purple-400/25 text-purple-200 transition cursor-pointer shrink-0"
+                  title="Salin nomor WhatsApp"
+                  aria-label="Salin nomor WhatsApp"
+                >
+                  <i data-lucide="copy" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <!-- Download & Preview CV PDF -->
+              <div class="pt-1 flex items-center gap-2">
+                <a
+                  href="Curriculum Vitae_Mulyadi.pdf"
+                  download="Curriculum Vitae_Mulyadi.pdf"
+                  class="flex-1 group flex items-center justify-center gap-2 rounded-xl bg-white text-purple-950 hover:bg-purple-100 font-display text-xs font-extrabold uppercase tracking-wider px-3.5 py-2.5 transition shadow-sm"
+                  title="Unduh Curriculum Vitae (PDF)"
+                >
+                  <i
+                    data-lucide="file-down"
+                    class="w-4 h-4 text-purple-700"
+                  ></i>
+                  <span>DOWNLOAD CV (PDF)</span>
+                </a>
+
+                <a
+                  href="Curriculum Vitae_Mulyadi.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 border border-purple-400/30 text-purple-200 font-display text-[11px] font-bold uppercase tracking-wider transition shrink-0"
+                  title="Buka CV di tab baru"
+                >
+                  LIHAT
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="lg:col-span-8 space-y-6 grid-item-anim grid-from-right rounded-2xl bg-white/70 dark:bg-[#090810]/70 border border-slate-200/80 dark:border-white/[0.07] p-6 sm:p-8 backdrop-blur-xs"
+          >
+            <h2
+              class="font-display text-3xl sm:text-5xl font-extrabold tracking-tight uppercase leading-[1.04]"
+            >
+              KETAHANAN KERJA LAPANGAN &amp;
+              <span class="text-purple-600 dark:text-purple-400"
+                >SISTEM INFORMASI.</span
+              >
+            </h2>
+
+            <p
+              class="text-slate-600 dark:text-slate-300 text-base sm:text-[17px] leading-relaxed"
+            >
+              Lulusan Sarjana Komputer (S.Kom.) program studi Sistem Informasi
+              dari STMIK PPKIA Tarakanita Rahmawati (studi 2022–2026, yudisium
+              Februari 2026, wisuda November 2026) dengan IPK 3.74, nilai
+              skripsi predikat A, serta penghargaan Wisudawan dan Lulusan
+              Terbaik.
+            </p>
+            <p
+              class="text-slate-600 dark:text-slate-300 text-base sm:text-[17px] leading-relaxed"
+            >
+              Berpengalaman penuh waktu lebih dari 6 tahun sejak Juni 2020 di
+              bagian produksi dan pembelian perusahaan ekspor udang beku
+              Bonanza, menangani pembongkaran udang dan penentuan size udang
+              dengan harga yang telah ditentukan perusahaan.
+            </p>
+            <p
+              class="text-slate-600 dark:text-slate-300 text-base sm:text-[17px] leading-relaxed"
+            >
+              Juga memiliki pengalaman magang 6 bulan di PT Pelindo 4 Tarakan
+              pada pencatatan dan arsip PPKB kapal serta pencetakan dan arsip
+              nota tagihan pandu tunda kapal.
+            </p>
+
+            <div
+              class="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-6 border-t border-slate-200 dark:border-white/10"
+            >
+              <div class="grid-item-anim grid-from-left">
+                <div
+                  class="font-display text-sm text-purple-600 dark:text-purple-400 font-extrabold"
+                >
+                  01
+                </div>
+                <div
+                  class="font-display font-extrabold text-sm uppercase tracking-wider mt-1"
+                >
+                  PRODUKSI &amp; PEMBELIAN
+                </div>
+                <p
+                  class="text-sm text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed"
+                >
+                  6+ tahun menangani pembongkaran udang dan penentuan size udang
+                  sesuai ketetapan perusahaan.
+                </p>
+              </div>
+              <div class="grid-item-anim grid-from-up">
+                <div
+                  class="font-display text-sm text-purple-600 dark:text-purple-400 font-extrabold"
+                >
+                  02
+                </div>
+                <div
+                  class="font-display font-extrabold text-sm uppercase tracking-wider mt-1"
+                >
+                  ADMINISTRASI PELABUHAN
+                </div>
+                <p
+                  class="text-sm text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed"
+                >
+                  Pencatatan dan arsip surat PPKB kapal serta cetak dan arsip
+                  nota tagihan pandu tunda.
+                </p>
+              </div>
+              <div class="grid-item-anim grid-from-right">
+                <div
+                  class="font-display text-sm text-purple-600 dark:text-purple-400 font-extrabold"
+                >
+                  03
+                </div>
+                <div
+                  class="font-display font-extrabold text-sm uppercase tracking-wider mt-1"
+                >
+                  PENGEMBANGAN SISTEM
+                </div>
+                <p
+                  class="text-sm text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed"
+                >
+                  Membangun aplikasi CNN deteksi kesegaran udang tiger dan
+                  sistem stok opname gudang.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 / IDENTITY CARD: FOTO PNG TANPA BORDER SLIDE DARI KIRI + PURPLE/BLACK 3D BOX LANYARD -->
+      <section
+        id="identity-section"
+        class="section-frame relative max-w-7xl mx-auto px-4 sm:px-8 py-20 border-b border-slate-200 dark:border-white/10 overflow-x-clip"
+      >
+        <div
+          class="pointer-events-none absolute right-6 top-1/2 -translate-y-1/2 w-[380px] h-[380px] rounded-full bg-purple-600/15 blur-3xl"
+        ></div>
+
+        <div
+          class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3"
+        >
+          <div
+            class="font-display text-xs font-extrabold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400"
+          >
+            02 / IDENTITY CARD
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Tarik tali &amp; boks nametag ke segala arah untuk ayunan 3D • Klik
+            kartu untuk flip depan/belakang
+          </p>
+        </div>
+
+        <div
+          class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+        >
+          <!-- Foto profesional2.png tanpa border kotak, slide masuk dari kiri saat scroll -->
+          <div
+            id="profesional-slide-photo"
+            class="slide-in-left lg:col-span-5 flex flex-col items-center"
+          >
+            <img
+              src="gambar/profesional.jpg"
+              alt="Mulyadi — Foto Profesional PNG"
+              class="w-full max-w-[390px] max-h-[520px] object-contain object-bottom select-none drop-shadow-[0_18px_32px_rgba(126,34,206,0.35)]"
+              onerror="this.src = 'gambar/profesional.jpg'"
+            />
+            <div
+              class="mt-3 flex items-center gap-2 text-xs font-display font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400"
+            >
+              <span>MULYADI, S.KOM.</span>
+              <span class="text-slate-400">•</span>
+              <span class="text-slate-500 dark:text-slate-400"
+                >TARAKAN, ID</span
+              >
+            </div>
+          </div>
+
+          <!-- Purple & Black 3D Pullable & Flippable Box Nametag + Stylized Lanyard -->
+          <div class="lg:col-span-7 grid-item-anim grid-from-right">
+            <div
+              id="lanyard-stage"
+              class="relative h-[610px] w-full flex flex-col items-center justify-start select-none overflow-visible rounded-3xl bg-gradient-to-b from-purple-950/35 via-[#120b22]/75 to-[#06050a]/95 border border-purple-500/25 pt-3 shadow-[inset_0_1px_0_rgba(216,180,254,0.12)]"
+            >
+              <div
+                class="pointer-events-none absolute inset-0 rounded-3xl bg-[radial-gradient(circle_at_50%_28%,rgba(168,85,247,0.22),transparent_62%)]"
+              ></div>
+
+              <!-- Top Anchor Bar -->
+              <div
+                class="relative z-30 px-4 py-1.5 rounded-full bg-[#09070e] text-purple-300 border border-purple-400/45 font-display text-xs font-extrabold tracking-wider uppercase shadow-[0_10px_24px_rgba(0,0,0,0.55)] flex items-center gap-2"
+              >
+                <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                <span>S.KOM • SISTEM INFORMASI</span>
+              </div>
+
+              <!-- Stylized Purple & Black Lanyard -->
+              <svg
+                id="lanyard-svg"
+                class="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible"
+              >
+                <defs>
+                  <pattern
+                    id="purpleOrnament"
+                    width="24"
+                    height="24"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <rect width="24" height="24" fill="#2e1065" />
+                    <path
+                      d="M 0 14 Q 6 6 12 14 T 24 14"
+                      fill="none"
+                      stroke="rgba(216,180,254,0.34)"
+                      stroke-width="1.6"
+                    />
+                    <circle
+                      cx="12"
+                      cy="8"
+                      r="3"
+                      fill="none"
+                      stroke="rgba(192,132,252,0.28)"
+                      stroke-width="1.2"
+                    />
+                    <path
+                      d="M 4 22 Q 12 16 20 22"
+                      fill="none"
+                      stroke="rgba(168,85,247,0.35)"
+                      stroke-width="1.3"
+                    />
+                  </pattern>
+
+                  <linearGradient
+                    id="purpleRibbonGrad"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%"
+                  >
+                    <stop offset="0%" stop-color="#1e0b36" />
+                    <stop offset="25%" stop-color="#6b21a8" />
+                    <stop offset="50%" stop-color="#a855f7" />
+                    <stop offset="76%" stop-color="#581c87" />
+                    <stop offset="100%" stop-color="#0d0714" />
+                  </linearGradient>
+
+                  <filter
+                    id="lanyardShadowBlur"
+                    x="-30%"
+                    y="-30%"
+                    width="160%"
+                    height="160%"
+                  >
+                    <feGaussianBlur stdDeviation="5.5" />
+                  </filter>
+                </defs>
+
+                <path
+                  id="strap-shadow-left"
+                  d=""
+                  fill="none"
+                  stroke="rgba(0,0,0,0.46)"
+                  stroke-width="22"
+                  stroke-linecap="round"
+                  filter="url(#lanyardShadowBlur)"
+                />
+                <path
+                  id="strap-shadow-right"
+                  d=""
+                  fill="none"
+                  stroke="rgba(0,0,0,0.46)"
+                  stroke-width="22"
+                  stroke-linecap="round"
+                  filter="url(#lanyardShadowBlur)"
+                />
+
+                <path
+                  id="strap-edge-left"
+                  d=""
+                  fill="none"
+                  stroke="#090510"
+                  stroke-width="20"
+                  stroke-linecap="round"
+                />
+                <path
+                  id="strap-edge-right"
+                  d=""
+                  fill="none"
+                  stroke="#090510"
+                  stroke-width="20"
+                  stroke-linecap="round"
+                />
+
+                <path
+                  id="strap-left"
+                  d=""
+                  fill="none"
+                  stroke="url(#purpleRibbonGrad)"
+                  stroke-width="17"
+                  stroke-linecap="round"
+                />
+                <path
+                  id="strap-right"
+                  d=""
+                  fill="none"
+                  stroke="url(#purpleRibbonGrad)"
+                  stroke-width="17"
+                  stroke-linecap="round"
+                />
+
+                <path
+                  id="ornament-left"
+                  d=""
+                  fill="none"
+                  stroke="url(#purpleOrnament)"
+                  stroke-width="15"
+                  stroke-linecap="round"
+                  stroke-dasharray="62 120"
+                  stroke-dashoffset="-48"
+                />
+                <path
+                  id="ornament-right"
+                  d=""
+                  fill="none"
+                  stroke="url(#purpleOrnament)"
+                  stroke-width="15"
+                  stroke-linecap="round"
+                  stroke-dasharray="62 120"
+                  stroke-dashoffset="-48"
+                />
+
+                <path
+                  id="trim-left"
+                  d=""
+                  fill="none"
+                  stroke="rgba(233,213,255,0.45)"
+                  stroke-width="1.2"
+                  stroke-dasharray="6 5"
+                />
+                <path
+                  id="trim-right"
+                  d=""
+                  fill="none"
+                  stroke="rgba(233,213,255,0.45)"
+                  stroke-width="1.2"
+                  stroke-dasharray="6 5"
+                />
+
+                <text
+                  id="lanyard-text-left"
+                  fill="#f3e8ff"
+                  font-family="'Syne', sans-serif"
+                  font-size="7.5"
+                  font-weight="800"
+                  letter-spacing="2.2"
+                >
+                  <textPath
+                    id="lanyard-textpath-left"
+                    href="#strap-left"
+                    startOffset="6%"
+                  >
+                    MULYADI • SISTEM INFORMASI • TARAKAN •
+                  </textPath>
+                </text>
+                <text
+                  id="lanyard-text-right"
+                  fill="#f3e8ff"
+                  font-family="'Syne', sans-serif"
+                  font-size="7.5"
+                  font-weight="800"
+                  letter-spacing="2.2"
+                >
+                  <textPath
+                    id="lanyard-textpath-right"
+                    href="#strap-right"
+                    startOffset="6%"
+                  >
+                    MULYADI • SISTEM INFORMASI • TARAKAN •
+                  </textPath>
+                </text>
+              </svg>
+
+              <!-- Pullable 3D Box Body -->
+              <div
+                id="lanyard-physics-body"
+                class="absolute top-0 left-1/2 z-20 cursor-grab active:cursor-grabbing touch-none"
+                style="transform: translate(-50%, 116px)"
+              >
+                <div
+                  id="nametag-cast-shadow"
+                  class="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 w-[285px] h-11 rounded-full bg-black/70 blur-xl"
+                ></div>
+
+                <div
+                  class="flex flex-col items-center -mb-2.5 relative z-30 pointer-events-none"
+                >
+                  <div
+                    class="w-12 h-3.5 rounded-sm bg-gradient-to-b from-purple-200 via-white to-slate-400 border border-purple-950 shadow-[0_3px_6px_rgba(0,0,0,0.55)]"
+                  ></div>
+                  <div
+                    class="w-9 h-4.5 -mt-0.5 rounded-full border-[3px] border-purple-300 shadow-[0_3px_7px_rgba(0,0,0,0.6),inset_0_1px_2px_rgba(255,255,255,0.9)]"
+                  ></div>
+                  <div
+                    class="w-7 h-4 -mt-1 rounded-md bg-gradient-to-r from-slate-400 via-white to-slate-500 border border-slate-700 shadow-[0_6px_12px_rgba(0,0,0,0.65)] flex items-center justify-center"
+                  >
+                    <div class="w-2.5 h-1 rounded-full bg-slate-700/75"></div>
+                  </div>
+                </div>
+
+                <div class="box-scene w-[296px] sm:w-[312px] h-[428px]">
+                  <div id="nametag-flip-card" class="box-card">
+                    <div class="box-rim-left"></div>
+                    <div class="box-rim-right"></div>
+                    <div class="box-rim-bottom"></div>
+
+                    <!-- FRONT FACE -->
+                    <div
+                      class="box-face box-front flex flex-col justify-between"
+                    >
+                      <div class="card-gloss"></div>
+
+                      <div
+                        class="pointer-events-none absolute inset-y-8 left-2 flex flex-col justify-between font-display font-extrabold text-[10px] tracking-[0.26em] text-purple-400/15 uppercase select-none"
+                        style="writing-mode: vertical-rl"
+                      >
+                        <span>SISTEM INFORMASI • IPK 3.74</span>
+                      </div>
+                      <div
+                        class="pointer-events-none absolute inset-y-8 right-2 flex flex-col justify-between font-display font-extrabold text-[10px] tracking-[0.26em] text-purple-400/15 uppercase select-none"
+                        style="writing-mode: vertical-rl"
+                      >
+                        <span>MULYADI, S.KOM • TARAKAN</span>
+                      </div>
+
+                      <div
+                        class="relative z-10 px-4 pt-3.5 pb-2 flex items-center justify-between border-b border-purple-500/20 bg-purple-950/35"
+                      >
+                        <span
+                          class="font-display text-[11px] font-extrabold tracking-wider uppercase text-purple-200"
+                          >ID CARD • S.KOM.</span
+                        >
+                        <span
+                          class="font-display text-[11px] font-extrabold text-purple-300 flex items-center gap-1.5"
+                        >
+                          <span
+                            class="w-2 h-2 rounded-full bg-purple-400 shadow-[0_0_8px_#c084fc]"
+                          ></span>
+                          ACTIVE
+                        </span>
+                      </div>
+
+                      <div
+                        class="relative z-10 w-14 h-2 rounded-full bg-black/90 mx-auto -mt-1 border border-purple-300/25 shadow-[inset_0_2px_4px_rgba(0,0,0,0.95)]"
+                      ></div>
+
+                      <div
+                        class="relative z-10 mx-7 h-52 rounded-xl overflow-hidden bg-purple-950 border border-purple-400/30 shadow-[inset_0_3px_10px_rgba(0,0,0,0.65),0_10px_20px_rgba(0,0,0,0.5)] pointer-events-none"
+                      >
+                        <img
+                          src="gambar/latarmerah.jpg"
+                          alt="Foto Mulyadi"
+                          draggable="false"
+                          class="w-full h-full object-cover object-top"
+                        />
+                      </div>
+
+                      <div class="relative z-10 px-4 text-center">
+                        <div
+                          class="font-display text-xl font-extrabold tracking-tight uppercase text-white"
+                        >
+                          MULYADI, S.Kom.
+                        </div>
+                        <div
+                          class="font-display text-[11px] font-extrabold uppercase tracking-wider text-purple-300 mt-0.5"
+                        >
+                          SISTEM INFORMASI • IPK 3.74
+                        </div>
+                      </div>
+
+                      <div
+                        class="relative z-10 px-4 py-2.5 bg-purple-950/60 border-t border-purple-400/25 flex items-center justify-between text-[11px] font-display font-bold uppercase tracking-wider text-purple-200"
+                      >
+                        <span>STMIK PPKIA TARAKAN</span>
+                        <span class="text-purple-300">FLIP ↻</span>
+                      </div>
+                    </div>
+
+                    <!-- BACK FACE -->
+                    <div
+                      class="box-face box-back p-5 flex flex-col justify-between"
+                    >
+                      <div class="card-gloss"></div>
+
+                      <div
+                        class="relative z-10 flex items-center justify-between text-xs font-display font-extrabold text-purple-200 border-b border-purple-400/25 pb-2.5"
+                      >
+                        <span>PROFILE SUMMARY</span>
+                        <span class="text-purple-300">TARAKAN, ID</span>
+                      </div>
+
+                      <div class="relative z-10 space-y-3 text-xs">
+                        <div
+                          class="rounded-xl bg-black/35 border border-purple-400/20 p-3"
+                        >
+                          <div
+                            class="font-display font-bold text-[10px] text-purple-300 uppercase tracking-wider"
+                          >
+                            PENDIDIKAN
+                          </div>
+                          <div class="font-bold text-sm mt-0.5 text-white">
+                            STMIK PPKIA Tarakanita Rahmawati
+                          </div>
+                          <div class="text-purple-100/80">
+                            S1 Sistem Informasi • IPK 3.74 • Lulusan Terbaik
+                          </div>
+                        </div>
+
+                        <div
+                          class="rounded-xl bg-black/35 border border-purple-400/20 p-3"
+                        >
+                          <div
+                            class="font-display font-bold text-[10px] text-purple-300 uppercase tracking-wider"
+                          >
+                            PENGALAMAN
+                          </div>
+                          <div class="font-bold text-sm mt-0.5 text-white">
+                            Bonanza (Jun 2020–Nov 2026)
+                          </div>
+                          <div class="text-purple-100/80">
+                            Produksi &amp; Pembelian • Magang PT Pelindo 4
+                          </div>
+                        </div>
+
+                        <div
+                          class="flex flex-wrap gap-1.5 font-display font-bold text-[10px] uppercase"
+                        >
+                          <span
+                            class="px-2.5 py-1 rounded bg-purple-500/25 text-purple-200 border border-purple-300/25"
+                            >Python / CNN</span
+                          >
+                          <span
+                            class="px-2.5 py-1 rounded bg-purple-500/25 text-purple-200 border border-purple-300/25"
+                            >PHP / MySQL</span
+                          >
+                          <span
+                            class="px-2.5 py-1 rounded bg-purple-500/25 text-purple-200 border border-purple-300/25"
+                            >Java / Excel</span
+                          >
+                        </div>
+                      </div>
+
+                      <div
+                        class="relative z-10 pt-2.5 border-t border-purple-400/25 flex items-center justify-between text-xs text-purple-200/80"
+                      >
+                        <span>Klik untuk kembali</span>
+                        <span class="font-display font-bold text-purple-300"
+                          >↺ FRONT</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 / KEAHLIAN & TOOLS -->
+      <section
+        class="section-frame max-w-7xl mx-auto px-4 sm:px-8 py-20 border-b border-slate-200 dark:border-white/10 reveal overflow-x-clip"
+      >
+        <div
+          class="font-display text-xs font-extrabold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400 mb-6"
+        >
+          03 / KEAHLIAN &amp; TOOLS
+        </div>
+
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8"
+        >
+          <h2
+            class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight uppercase leading-none"
+          >
+            TOOLS OF
+            <span class="text-purple-600 dark:text-purple-400">THOUGHT.</span>
+          </h2>
+          <p
+            class="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-xs leading-relaxed"
+          >
+            Bahasa pemrograman, framework, dan perangkat lunak yang digunakan
+            dalam proyek dan kerja harian.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-2.5">
+          <span
+            class="grid-item-anim grid-from-up px-4 py-2 rounded-full border border-slate-300 dark:border-white/15 bg-white/85 dark:bg-white/[0.05] text-xs font-display font-bold backdrop-blur-xs"
+            >Python</span
+          >
+          <span
+            class="grid-item-anim grid-from-up px-4 py-2 rounded-full border border-slate-300 dark:border-white/15 bg-white/85 dark:bg-white/[0.05] text-xs font-display font-bold backdrop-blur-xs"
+            >TensorFlow &amp; Keras</span
+          >
+          <span
+            class="grid-item-anim grid-from-up px-4 py-2 rounded-full border border-slate-300 dark:border-white/15 bg-white/85 dark:bg-white/[0.05] text-xs font-display font-bold backdrop-blur-xs"
+            >OpenCV</span
+          >
+          <span
+            class="grid-item-anim grid-from-up px-4 py-2 rounded-full border border-slate-300 dark:border-white/15 bg-white/85 dark:bg-white/[0.05] text-xs font-display font-bold backdrop-blur-xs"
+            >PHP</span
+          >
+          <span
+            class="grid-item-anim grid-from-up px-4 py-2 rounded-full border border-slate-300 dark:border-white/15 bg-white/85 dark:bg-white/[0.05] text-xs font-display font-bold backdrop-blur-xs"
+            >MySQL &amp; XAMPP</span
+          >
+          <span
+            class="grid-item-anim grid-from-up px-4 py-2 rounded-full border border-slate-300 dark:border-white/15 bg-white/85 dark:bg-white/[0.05] text-xs font-display font-bold backdrop-blur-xs"
+            >Java (Android Studio)</span
+          >
+          <span
+            class="grid-item-anim grid-from-up px-4 py-2 rounded-full border border-slate-300 dark:border-white/15 bg-white/85 dark:bg-white/[0.05] text-xs font-display font-bold backdrop-blur-xs"
+            >HTML &amp; CSS</span
+          >
+          <span
+            class="grid-item-anim grid-from-up px-4 py-2 rounded-full border border-slate-300 dark:border-white/15 bg-white/85 dark:bg-white/[0.05] text-xs font-display font-bold backdrop-blur-xs"
+            >Microsoft Word &amp; Excel</span
+          >
+          <span
+            class="grid-item-anim grid-from-up px-4 py-2 rounded-full border border-slate-300 dark:border-white/15 bg-white/85 dark:bg-white/[0.05] text-xs font-display font-bold backdrop-blur-xs"
+            >Canva</span
+          >
+        </div>
+      </section>
+
+      <!-- 04 / PENGALAMAN KERJA & MAGANG -->
+      <section
+        id="journey"
+        class="section-frame max-w-7xl mx-auto px-4 sm:px-8 py-20 border-b border-slate-200 dark:border-white/10 reveal overflow-x-clip"
+      >
+        <div
+          class="font-display text-xs font-extrabold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400 mb-6"
+        >
+          04 / PENGALAMAN KERJA &amp; MAGANG
+        </div>
+
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10"
+        >
+          <h2
+            class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight uppercase leading-none"
+          >
+            BUILT BY
+            <span class="text-purple-600 dark:text-purple-400"
+              >EXPERIENCE.</span
+            >
+          </h2>
+          <p
+            class="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-xs leading-relaxed"
+          >
+            Pengalaman operasional ekspor udang beku dan administrasi pelayanan
+            pelabuhan di Tarakan.
+          </p>
+        </div>
+
+        <div
+          class="divide-y divide-slate-200 dark:divide-white/10 border-y border-slate-200 dark:border-white/10 bg-white/60 dark:bg-[#08070f]/60 backdrop-blur-xs rounded-2xl px-4 sm:px-6"
+        >
+          <div
+            class="py-7 grid grid-cols-1 md:grid-cols-12 gap-4 items-start grid-item-anim grid-from-left"
+          >
+            <div
+              class="md:col-span-3 font-display text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+            >
+              JUN 2020 – NOV 2026
+            </div>
+            <div class="md:col-span-8 space-y-1">
+              <h3 class="font-display text-xl sm:text-2xl font-extrabold">
+                Bonanza (Ekspor Udang Beku)
+              </h3>
+              <div
+                class="font-display text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400"
+              >
+                Divisi Produksi &amp; Pembelian • Tarakan
+              </div>
+              <p
+                class="text-sm sm:text-base text-slate-600 dark:text-slate-300 pt-1 leading-relaxed"
+              >
+                Menangani proses pembongkaran udang dan menentukan size udang
+                dengan harga yang telah ditentukan perusahaan, sekaligus
+                menyelesaikan studi S1 Sistem Informasi.
+              </p>
+            </div>
+            <div
+              class="md:col-span-1 md:text-right font-display font-bold text-slate-400"
+            >
+              ↗
+            </div>
+          </div>
+
+          <div
+            class="py-7 grid grid-cols-1 md:grid-cols-12 gap-4 items-start grid-item-anim grid-from-right"
+          >
+            <div
+              class="md:col-span-3 font-display text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+            >
+              6 BULAN • MAGANG
+            </div>
+            <div class="md:col-span-8 space-y-1">
+              <h3 class="font-display text-xl sm:text-2xl font-extrabold">
+                PT Pelindo 4 Tarakan
+              </h3>
+              <div
+                class="font-display text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400"
+              >
+                Internship • Administrasi Kapal
+              </div>
+              <p
+                class="text-sm sm:text-base text-slate-600 dark:text-slate-300 pt-1 leading-relaxed"
+              >
+                Mencatat permohonan PPKB kapal yang akan bersandar di pelabuhan,
+                mengarsipkan surat PPKB kapal, serta mencetak dan mengarsipkan
+                nota tagihan pandu tunda kapal.
+              </p>
+            </div>
+            <div
+              class="md:col-span-1 md:text-right font-display font-bold text-slate-400"
+            >
+              ↗
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 / PROYEK & APLIKASI -->
+      <section
+        id="projects"
+        class="section-frame max-w-7xl mx-auto px-4 sm:px-8 py-20 border-b border-slate-200 dark:border-white/10 reveal overflow-x-clip"
+      >
+        <div
+          class="font-display text-xs font-extrabold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400 mb-6"
+        >
+          05 / PROYEK &amp; APLIKASI
+        </div>
+
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10"
+        >
+          <h2
+            class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight uppercase leading-none"
+          >
+            IDEAS INTO
+            <span class="text-purple-600 dark:text-purple-400">REALITY.</span>
+          </h2>
+          <p
+            class="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-xs leading-relaxed"
+          >
+            Klik kartu proyek untuk melihat tangkapan layar antarmuka
+            aplikasinya.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div
+            onclick="openProjectGallery('gudang')"
+            class="grid-item-anim grid-from-left group rounded-2xl bg-white/90 dark:bg-[#0b0914]/90 border border-slate-200 dark:border-white/10 hover:border-purple-500 p-7 transition cursor-pointer flex flex-col justify-between min-h-[250px] backdrop-blur-xs"
+          >
+            <div
+              class="flex items-center justify-between font-display text-xs font-extrabold text-slate-400"
+            >
+              <span>SISTEM GUDANG • 13 SCREENSHOT</span>
+              <span class="group-hover:text-purple-400 transition"
+                >BUKA SCREENSHOT ↗</span
+              >
+            </div>
+            <div class="my-6">
+              <h3
+                class="font-display text-2xl font-extrabold group-hover:text-purple-600 dark:group-hover:text-purple-400 transition"
+              >
+                Sistem Pendataan &amp; Stok Gudang
+              </h3>
+              <p
+                class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed"
+              >
+                Tampilan antarmuka login, form &amp; tabel barang masuk, barang
+                keluar, data barang, hingga fitur cetak/print laporan.
+              </p>
+            </div>
+            <div
+              class="flex flex-wrap gap-2 font-display text-xs font-bold uppercase"
+            >
+              <span
+                class="px-3 py-1 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10"
+                >LOGIN &amp; FORM</span
+              >
+              <span
+                class="px-3 py-1 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10"
+                >MASUK / KELUAR</span
+              >
+              <span
+                class="px-3 py-1 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10"
+                >CETAK &amp; TABEL</span
+              >
+            </div>
+          </div>
+
+          <div
+            onclick="openProjectGallery('skripsi')"
+            class="grid-item-anim grid-from-right group rounded-2xl bg-white/90 dark:bg-[#0b0914]/90 border border-slate-200 dark:border-white/10 hover:border-purple-500 p-7 transition cursor-pointer flex flex-col justify-between min-h-[250px] backdrop-blur-xs"
+          >
+            <div
+              class="flex items-center justify-between font-display text-xs font-extrabold text-slate-400"
+            >
+              <span>SKRIPSI CNN • PREDIKAT A</span>
+              <span class="group-hover:text-purple-400 transition"
+                >BUKA SCREENSHOT ↗</span
+              >
+            </div>
+            <div class="my-6">
+              <h3
+                class="font-display text-2xl font-extrabold group-hover:text-purple-600 dark:group-hover:text-purple-400 transition"
+              >
+                Deteksi Kesegaran Udang Tiger (CNN)
+              </h3>
+              <p
+                class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed"
+              >
+                Hasil evaluasi pengujian berupa Confusion Matrix dan Uji Tunggal
+                pada aplikasi deteksi tingkat kesegaran udang tiger.
+              </p>
+            </div>
+            <div
+              class="flex flex-wrap gap-2 font-display text-xs font-bold uppercase"
+            >
+              <span
+                class="px-3 py-1 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10"
+                >CONFUSION MATRIX</span
+              >
+              <span
+                class="px-3 py-1 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10"
+                >UJI TUNGGAL</span
+              >
+              <span
+                class="px-3 py-1 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10"
+                >CNN</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 / PENDIDIKAN -->
+      <section
+        class="section-frame max-w-7xl mx-auto px-4 sm:px-8 py-20 border-b border-slate-200 dark:border-white/10 reveal overflow-x-clip"
+      >
+        <div
+          class="font-display text-xs font-extrabold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400 mb-6"
+        >
+          06 / PENDIDIKAN
+        </div>
+
+        <h2
+          class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight uppercase leading-none mb-10"
+        >
+          KNOWLEDGE
+          <span class="text-purple-600 dark:text-purple-400">MATTERS.</span>
+        </h2>
+
+        <div
+          class="grid-item-anim grid-from-up rounded-2xl bg-white/90 dark:bg-[#0b0914]/90 border border-slate-200 dark:border-white/10 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 backdrop-blur-xs"
+        >
+          <div class="space-y-1.5">
+            <div
+              class="font-display text-xs font-extrabold uppercase tracking-wider text-slate-400"
+            >
+              SARJANA KOMPUTER (S.KOM.) • SISTEM INFORMASI
+            </div>
+            <h3 class="font-display text-2xl sm:text-3xl font-extrabold">
+              STMIK PPKIA Tarakanita Rahmawati
+            </h3>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300">
+              Wisudawan dan Lulusan Terbaik • Predikat Nilai A pada Skripsi
+            </p>
+            <p class="text-xs font-medium text-slate-400">
+              2022 – 2026 (Yudisium Feb 2026 • Wisuda Nov 2026)
+            </p>
+          </div>
+          <div class="sm:text-right">
+            <div
+              class="font-display text-4xl sm:text-5xl font-extrabold text-purple-600 dark:text-purple-400"
+            >
+              3.74
+            </div>
+            <div
+              class="font-display text-xs font-bold uppercase tracking-wider text-slate-400 mt-1"
+            >
+              IPK (3,5 TAHUN)
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 / SERTIFIKAT (4 SERTIFIKAT) -->
+      <section
+        id="certificates"
+        class="section-frame max-w-7xl mx-auto px-4 sm:px-8 py-20 border-b border-slate-200 dark:border-white/10 reveal overflow-x-clip"
+      >
+        <div
+          class="font-display text-xs font-extrabold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400 mb-6"
+        >
+          07 / SERTIFIKAT &amp; DOKUMEN
+        </div>
+
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10"
+        >
+          <h2
+            class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight uppercase leading-none"
+          >
+            PAPER
+            <span class="text-purple-600 dark:text-purple-400">TRAILS.</span>
+          </h2>
+          <p
+            class="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-xs leading-relaxed"
+          >
+            Klik sertifikat untuk melihat dokumen dan detail kelulusan atau
+            kompetensi.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <button
+            type="button"
+            onclick="openCertificateModal(0)"
+            class="grid-item-anim grid-from-left group text-left rounded-2xl bg-white/90 dark:bg-[#0b0914]/90 border border-slate-200 dark:border-white/10 hover:border-purple-500 p-4 transition cursor-pointer flex flex-col justify-between backdrop-blur-xs"
+          >
+            <div
+              class="h-44 w-full rounded-xl bg-slate-100 dark:bg-slate-900 overflow-hidden flex items-center justify-center mb-4"
+            >
+              <img
+                src="gambar/sertifikatlulusanterbaik.jpg"
+                alt="Wisudawan dan Lulusan Terbaik"
+                class="w-full h-full object-cover group-hover:scale-105 transition"
+                onerror="
+                  this.replaceWith(
+                    makeCertFallback('WISUDAWAN & LULUSAN TERBAIK', 'IPK 3.74'),
+                  )
+                "
+              />
+            </div>
+            <div>
+              <div
+                class="font-display font-extrabold text-base group-hover:text-purple-400 transition"
+              >
+                Lulusan Terbaik
+              </div>
+              <div
+                class="font-display text-xs font-bold uppercase tracking-wider text-slate-400 mt-1"
+              >
+                SERTIFIKAT / 001
+              </div>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onclick="openCertificateModal(1)"
+            class="grid-item-anim grid-from-up group text-left rounded-2xl bg-white/90 dark:bg-[#0b0914]/90 border border-slate-200 dark:border-white/10 hover:border-purple-500 p-4 transition cursor-pointer flex flex-col justify-between backdrop-blur-xs"
+          >
+            <div
+              class="h-44 w-full rounded-xl bg-slate-100 dark:bg-slate-900 overflow-hidden flex items-center justify-center mb-4"
+            >
+              <img
+                src="gambar/sertifikatept.png"
+                alt="English Proficiency Test"
+                class="w-full h-full object-cover group-hover:scale-105 transition"
+                onerror="
+                  this.replaceWith(
+                    makeCertFallback(
+                      'ENGLISH PROFICIENCY TEST',
+                      'SKOR EPT 433',
+                    ),
+                  )
+                "
+              />
+            </div>
+            <div>
+              <div
+                class="font-display font-extrabold text-base group-hover:text-purple-400 transition"
+              >
+                English Proficiency Test
+              </div>
+              <div
+                class="font-display text-xs font-bold uppercase tracking-wider text-slate-400 mt-1"
+              >
+                SERTIFIKAT / 002
+              </div>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onclick="openCertificateModal(2)"
+            class="grid-item-anim grid-from-up group text-left rounded-2xl bg-white/90 dark:bg-[#0b0914]/90 border border-slate-200 dark:border-white/10 hover:border-purple-500 p-4 transition cursor-pointer flex flex-col justify-between backdrop-blur-xs"
+          >
+            <div
+              class="h-44 w-full rounded-xl bg-slate-100 dark:bg-slate-900 overflow-hidden flex items-center justify-center mb-4"
+            >
+              <img
+                src="gambar/sertifikatukk.jpg"
+                alt="Uji Kompetensi Keahlian (UKK)"
+                class="w-full h-full object-cover group-hover:scale-105 transition"
+                onerror="
+                  this.replaceWith(
+                    makeCertFallback(
+                      'UJI KOMPETENSI KEAHLIAN',
+                      'UKK CERTIFICATE',
+                    ),
+                  )
+                "
+              />
+            </div>
+            <div>
+              <div
+                class="font-display font-extrabold text-base group-hover:text-purple-400 transition"
+              >
+                Uji Kompetensi (UKK)
+              </div>
+              <div
+                class="font-display text-xs font-bold uppercase tracking-wider text-slate-400 mt-1"
+              >
+                SERTIFIKAT / 003
+              </div>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onclick="openCertificateModal(3)"
+            class="grid-item-anim grid-from-right group text-left rounded-2xl bg-white/90 dark:bg-[#0b0914]/90 border border-slate-200 dark:border-white/10 hover:border-purple-500 p-4 transition cursor-pointer flex flex-col justify-between backdrop-blur-xs"
+          >
+            <div
+              class="h-44 w-full rounded-xl bg-slate-100 dark:bg-slate-900 overflow-hidden flex items-center justify-center mb-4"
+            >
+              <img
+                src="gambar/sertifikatpelindo.jpg"
+                alt="Magang PT Pelindo 4 Tarakan"
+                class="w-full h-full object-cover group-hover:scale-105 transition"
+                onerror="
+                  this.replaceWith(
+                    makeCertFallback(
+                      'MAGANG PT PELINDO 4',
+                      'INTERNSHIP CERTIFICATE',
+                    ),
+                  )
+                "
+              />
+            </div>
+            <div>
+              <div
+                class="font-display font-extrabold text-base group-hover:text-purple-400 transition"
+              >
+                Magang PT Pelindo 4
+              </div>
+              <div
+                class="font-display text-xs font-bold uppercase tracking-wider text-slate-400 mt-1"
+              >
+                SERTIFIKAT / 004
+              </div>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- 08 / KONTAK -->
+      <section
+        id="contact"
+        class="section-frame relative max-w-7xl mx-auto px-4 sm:px-8 py-20 reveal overflow-x-clip"
+      >
+        <div
+          class="pointer-events-none absolute -bottom-20 right-10 w-[420px] h-[220px] rounded-full bg-purple-600/15 blur-3xl"
+        ></div>
+
+        <div
+          class="relative z-10 font-display text-xs font-extrabold tracking-[0.18em] uppercase text-slate-500 dark:text-slate-400 mb-6"
+        >
+          08 / KONTAK &amp; DOMISILI
+        </div>
+
+        <h2
+          class="relative z-10 font-display text-5xl sm:text-7xl font-extrabold tracking-tight uppercase leading-[0.98] mb-12"
+        >
+          HAVE AN
+          <span class="text-purple-600 dark:text-purple-400">IDEA?</span>
+          <span class="block"
+            >LET'S TALK<span class="text-purple-600 dark:text-purple-400"
+              >.</span
+            ></span
+          >
+        </h2>
+
+        <div
+          class="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-8 pt-6 border-t border-slate-200 dark:border-white/10 grid-item-anim grid-from-up rounded-2xl bg-white/75 dark:bg-[#090810]/75 p-6 backdrop-blur-xs"
+        >
+          <div class="space-y-2.5 text-sm sm:text-base">
+            <div
+              class="font-display text-xs font-extrabold uppercase tracking-wider text-slate-400"
+            >
+              CONTACT DETAILS
+            </div>
+            <div>
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=mulyadimul36063003@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-medium hover:text-purple-400 transition"
+              >
+                mulyadimul36063003@gmail.com
+              </a>
+            </div>
+            <div>
+              <a
+                href="https://wa.me/6281253293581?text=Halo%20Mulyadi%2C%20saya%20melihat%20portofolio%20Anda."
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-slate-500 dark:text-slate-300 hover:text-purple-400 transition"
+              >
+                +62 812-5329-3581 (WhatsApp)
+              </a>
+            </div>
+            <div class="text-slate-500 dark:text-slate-400">
+              Tarakan, Kalimantan Utara ↗
+            </div>
+          </div>
+
+          <div
+            class="flex flex-wrap items-center gap-3 self-start md:self-auto"
+          >
+            <a
+              href="Curriculum Vitae_Mulyadi.pdf"
+              download="Curriculum Vitae_Mulyadi.pdf"
+              class="inline-flex items-center gap-2.5 px-5 py-3.5 rounded-full bg-white text-purple-950 hover:bg-purple-100 font-display font-extrabold text-xs uppercase tracking-wider transition"
+            >
+              <span>DOWNLOAD CV</span>
+              <span>↓</span>
+            </a>
+
+            <a
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=mulyadimul36063003@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-purple-600 hover:bg-purple-500 text-white font-display font-extrabold text-xs uppercase tracking-wider transition"
+            >
+              <span>KIRIM EMAIL</span>
+              <span>↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer
+      class="border-t border-slate-200 dark:border-white/10 py-6 text-center font-display text-xs font-bold uppercase tracking-wider text-slate-500 bg-white/60 dark:bg-[#06070a]/70 backdrop-blur-xs"
+    >
+      © 2026 MULYADI, S.Kom. • TARAKAN, KALIMANTAN UTARA
+    </footer>
+
+    <!-- MODAL GALERI SCREENSHOT PROYEK -->
+    <div
+      id="project-modal"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4"
+    >
+      <div
+        class="w-full max-w-4xl rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/15 p-5 sm:p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col"
+      >
+        <div
+          class="flex items-start justify-between gap-4 border-b border-slate-200 dark:border-white/10 pb-3"
+        >
+          <div>
+            <h3
+              id="proj-modal-title"
+              class="font-display font-extrabold text-lg sm:text-xl"
+            ></h3>
+            <p
+              id="proj-modal-caption"
+              class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5"
+            ></p>
+          </div>
+          <button
+            type="button"
+            onclick="closeProjectModal()"
+            class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div class="overflow-y-auto space-y-3 flex-grow">
+          <div
+            class="rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-white/10 p-3 flex items-center justify-center min-h-[280px]"
+          >
+            <img
+              id="proj-modal-img"
+              src=""
+              alt="Screenshot Proyek"
+              class="max-h-[56vh] w-auto object-contain rounded-lg"
+            />
+          </div>
+
+          <div
+            id="proj-thumb-list"
+            class="flex gap-2 overflow-x-auto pb-1"
+          ></div>
+        </div>
+
+        <div
+          class="pt-3 border-t border-slate-200 dark:border-white/10 flex items-center justify-between font-display text-xs font-extrabold"
+        >
+          <button
+            type="button"
+            onclick="navigateProjectShot(-1)"
+            class="px-3.5 py-2 rounded-lg bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 cursor-pointer"
+          >
+            ← PREV
+          </button>
+          <span id="proj-modal-counter">1 / 1</span>
+          <button
+            type="button"
+            onclick="navigateProjectShot(1)"
+            class="px-3.5 py-2 rounded-lg bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 cursor-pointer"
+          >
+            NEXT →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL SERTIFIKAT -->
+    <div
+      id="certificate-modal"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+    >
+      <div
+        class="w-full max-w-3xl rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/15 p-5 sm:p-6 shadow-2xl space-y-4 max-h-[90vh] flex flex-col"
+      >
+        <div
+          class="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-3"
+        >
+          <span
+            id="cert-modal-header"
+            class="font-display text-xs font-extrabold uppercase tracking-wider text-purple-600 dark:text-purple-400"
+          ></span>
+          <button
+            type="button"
+            onclick="closeCertificateModal()"
+            class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div class="overflow-y-auto space-y-4 py-1">
+          <div
+            class="rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-white/10 p-3 flex items-center justify-center min-h-[240px]"
+          >
+            <img
+              id="cert-modal-img"
+              src=""
+              alt="Gambar Sertifikat"
+              class="max-h-[52vh] w-auto object-contain rounded-lg"
+              onerror="
+                this.classList.add('hidden');
+                document
+                  .getElementById('cert-modal-missing')
+                  .classList.remove('hidden');
+              "
+            />
+            <div
+              id="cert-modal-missing"
+              class="hidden text-center text-xs font-medium text-slate-500 dark:text-slate-400 space-y-1 p-6"
+            >
+              <p class="font-semibold text-slate-700 dark:text-slate-200">
+                File gambar sertifikat belum terbaca:
+              </p>
+              <p
+                id="cert-modal-path"
+                class="font-display font-bold text-purple-600 dark:text-purple-400"
+              ></p>
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <h3
+              id="cert-modal-title"
+              class="font-display text-lg sm:text-xl font-extrabold"
+            ></h3>
+            <p
+              id="cert-modal-issuer"
+              class="text-xs font-semibold text-slate-500 dark:text-slate-400"
+            ></p>
+            <p
+              id="cert-modal-desc"
+              class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed"
+            ></p>
+          </div>
+        </div>
+
+        <div
+          class="pt-3 border-t border-slate-200 dark:border-white/10 flex items-center justify-between font-display text-xs font-extrabold"
+        >
+          <button
+            type="button"
+            onclick="navigateCertificate(-1)"
+            class="px-3.5 py-2 rounded-lg bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 cursor-pointer"
+          >
+            ← PREV
+          </button>
+          <span id="cert-modal-counter">1 / 4</span>
+          <button
+            type="button"
+            onclick="navigateCertificate(1)"
+            class="px-3.5 py-2 rounded-lg bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 cursor-pointer"
+          >
+            NEXT →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function makeCertFallback(title, sub) {
+        const box = document.createElement("div");
+        box.className =
+          "w-full h-full flex flex-col items-center justify-center p-4 text-center bg-slate-900 text-white border border-white/10 rounded-xl";
+        box.innerHTML = `<span class="font-display text-xs font-extrabold text-purple-400 uppercase">${sub}</span><span class="font-display text-sm font-bold mt-1">${title}</span>`;
+        return box;
+      }
+
+      // Copy helper for recruiter contact
+      function copyContact(text) {
+        const feedback = document.getElementById("copy-feedback");
+        const showFeedback = () => {
+          if (!feedback) return;
+          feedback.textContent = `Tersalin: ${text}`;
+          feedback.classList.remove("opacity-0");
+          feedback.classList.add("opacity-100");
+          clearTimeout(window.__copyTimer);
+          window.__copyTimer = setTimeout(() => {
+            feedback.classList.remove("opacity-100");
+            feedback.classList.add("opacity-0");
+          }, 1800);
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard
+            .writeText(text)
+            .then(showFeedback)
+            .catch(() => {});
+        }
+      }
+
+      // 1. Dark / Light Mode
+      const htmlEl = document.documentElement;
+      const themeBtn = document.getElementById("theme-toggle");
+      const themeLabel = document.getElementById("theme-label");
+
+      function syncThemeUI() {
+        const isDark = htmlEl.classList.contains("dark");
+        if (themeLabel) themeLabel.textContent = isDark ? "DARK" : "LIGHT";
+      }
+      syncThemeUI();
+
+      if (themeBtn) {
+        themeBtn.addEventListener("click", () => {
+          htmlEl.classList.toggle("dark");
+          syncThemeUI();
+        });
+      }
+
+      // 2. Interactive 3D Pullable & Flippable Box Lanyard (Purple & Black)
+      const stage = document.getElementById("lanyard-stage");
+      const physicsBody = document.getElementById("lanyard-physics-body");
+      const flipCard = document.getElementById("nametag-flip-card");
+      const castShadow = document.getElementById("nametag-cast-shadow");
+
+      const strapLeft = document.getElementById("strap-left");
+      const strapRight = document.getElementById("strap-right");
+      const strapEdgeLeft = document.getElementById("strap-edge-left");
+      const strapEdgeRight = document.getElementById("strap-edge-right");
+      const ornamentLeft = document.getElementById("ornament-left");
+      const ornamentRight = document.getElementById("ornament-right");
+      const trimLeft = document.getElementById("trim-left");
+      const trimRight = document.getElementById("trim-right");
+      const strapShadowLeft = document.getElementById("strap-shadow-left");
+      const strapShadowRight = document.getElementById("strap-shadow-right");
+
+      const restY = 116;
+      let posX = 0;
+      let posY = restY;
+      let velX = 0;
+      let velY = 0;
+
+      let isDragging = false;
+      let pointerStartX = 0;
+      let pointerStartY = 0;
+      let dragOriginX = 0;
+      let dragOriginY = 0;
+      let movedDistance = 0;
+
+      if (physicsBody && stage) {
+        physicsBody.addEventListener("pointerdown", (e) => {
+          isDragging = true;
+          movedDistance = 0;
+          pointerStartX = e.clientX;
+          pointerStartY = e.clientY;
+          dragOriginX = posX;
+          dragOriginY = posY;
+          physicsBody.setPointerCapture(e.pointerId);
+        });
+
+        window.addEventListener("pointermove", (e) => {
+          if (!isDragging) return;
+          const dx = e.clientX - pointerStartX;
+          const dy = e.clientY - pointerStartY;
+          movedDistance = Math.hypot(dx, dy);
+
+          const targetX = Math.max(-175, Math.min(175, dragOriginX + dx));
+          const targetY = Math.max(48, Math.min(205, dragOriginY + dy));
+
+          velX = (targetX - posX) * 0.35;
+          velY = (targetY - posY) * 0.35;
+          posX = targetX;
+          posY = targetY;
+        });
+
+        window.addEventListener("pointerup", () => {
+          if (!isDragging) return;
+          isDragging = false;
+          if (movedDistance < 8 && flipCard) {
+            flipCard.classList.toggle("is-flipped");
+          }
+        });
+      }
+
+      function setPaths(els, d) {
+        els.forEach((el) => {
+          if (el) el.setAttribute("d", d);
+        });
+      }
+
+      function animateLanyard() {
+        if (!isDragging) {
+          const stiffness = 0.085;
+          const damping = 0.86;
+          velX = (velX + (0 - posX) * stiffness) * damping;
+          velY = (velY + (restY - posY) * stiffness) * damping;
+          posX += velX;
+          posY += velY;
+        }
+
+        if (physicsBody && stage) {
+          const tiltZ = Math.max(-20, Math.min(20, posX * 0.09 + velX * 0.35));
+          const tiltY = Math.max(-28, Math.min(28, posX * 0.16));
+          const tiltX = Math.max(-18, Math.min(18, -(posY - restY) * 0.13));
+
+          physicsBody.style.transform = `translate(calc(-50% + ${posX}px), ${posY}px) perspective(1200px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) rotateZ(${tiltZ}deg)`;
+
+          if (castShadow) {
+            const shadowShiftX = -posX * 0.25;
+            const shadowScale = Math.max(0.75, 1.05 - (posY - restY) * 0.002);
+            castShadow.style.transform = `translate(calc(-50% + ${shadowShiftX}px), 0px) scale(${shadowScale})`;
+          }
+
+          const centerX = stage.clientWidth / 2;
+          const anchorTopY = 28;
+          const hookX = centerX + posX;
+          const hookY = posY + 2;
+
+          const leftStartX = centerX - 28;
+          const rightStartX = centerX + 28;
+
+          const midY = anchorTopY + (hookY - anchorTopY) * 0.56;
+          const sag = Math.max(0, 20 - (posY - restY) * 0.15);
+          const swayOffset = posX * 0.12;
+
+          const dLeft = `M ${leftStartX} ${anchorTopY} C ${leftStartX - 15 + swayOffset} ${midY + sag}, ${hookX - 16} ${hookY - 26}, ${hookX - 4} ${hookY}`;
+          const dRight = `M ${rightStartX} ${anchorTopY} C ${rightStartX + 15 + swayOffset} ${midY + sag}, ${hookX + 16} ${hookY - 26}, ${hookX + 4} ${hookY}`;
+
+          const dShadowLeft = `M ${leftStartX + 7} ${anchorTopY + 10} C ${leftStartX - 8 + swayOffset} ${midY + sag + 10}, ${hookX - 9} ${hookY - 16}, ${hookX + 3} ${hookY + 10}`;
+          const dShadowRight = `M ${rightStartX + 7} ${anchorTopY + 10} C ${rightStartX + 22 + swayOffset} ${midY + sag + 10}, ${hookX + 23} ${hookY - 16}, ${hookX + 11} ${hookY + 10}`;
+
+          setPaths([strapLeft, strapEdgeLeft, ornamentLeft, trimLeft], dLeft);
+          setPaths(
+            [strapRight, strapEdgeRight, ornamentRight, trimRight],
+            dRight,
+          );
+          if (strapShadowLeft) strapShadowLeft.setAttribute("d", dShadowLeft);
+          if (strapShadowRight)
+            strapShadowRight.setAttribute("d", dShadowRight);
+        }
+
+        requestAnimationFrame(animateLanyard);
+      }
+      requestAnimationFrame(animateLanyard);
+
+      // 3. Scroll Reveal, Staggered Grid Items & Slide-In From Left (profesional2.png)
+      document.querySelectorAll(".grid-item-anim").forEach((el, idx) => {
+        el.style.transitionDelay = `${(idx % 4) * 90}ms`;
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              entry.target.classList.add("is-shown");
+              entry.target.classList.add("in-view");
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      document
+        .querySelectorAll(".reveal, .grid-item-anim")
+        .forEach((el) => observer.observe(el));
+
+      const profPhoto = document.getElementById("profesional-slide-photo");
+      if (profPhoto) observer.observe(profPhoto);
+
+      // 4. Project Galleries
+      const projectGalleries = {
+        gudang: {
+          title: "Sistem Pendataan & Stok Gudang",
+          shots: [
+            {
+              label: "1login",
+              candidates: [
+                "gambarantarmukagudang/1login.png",
+                "gambarantarmukagudang/1login.jpg",
+              ],
+            },
+            {
+              label: "2form_masuk",
+              candidates: [
+                "gambarantarmukagudang/2form_masuk.png",
+                "gambarantarmukagudang/2form_masuk.jpg",
+              ],
+            },
+            {
+              label: "2tabel_masuk",
+              candidates: [
+                "gambarantarmukagudang/2tabel_masuk.png",
+                "gambarantarmukagudang/2tabel_masuk.jpg",
+              ],
+            },
+            {
+              label: "2cetak_masuk",
+              candidates: [
+                "gambarantarmukagudang/2cetak_masuk.png",
+                "gambarantarmukagudang/2cetak_masuk.jpg",
+              ],
+            },
+            {
+              label: "2print_masuk",
+              candidates: [
+                "gambarantarmukagudang/2print_masuk.png",
+                "gambarantarmukagudang/2print_masuk.jpg",
+              ],
+            },
+            {
+              label: "3form_keluar",
+              candidates: [
+                "gambarantarmukagudang/3form_keluar.png",
+                "gambarantarmukagudang/3form_keluar.jpg",
+              ],
+            },
+            {
+              label: "3tabel_keluar",
+              candidates: [
+                "gambarantarmukagudang/3tabel_keluar.png",
+                "gambarantarmukagudang/3tabel_keluar.jpg",
+              ],
+            },
+            {
+              label: "3cetak_keluar",
+              candidates: [
+                "gambarantarmukagudang/3cetak_keluar.png",
+                "gambarantarmukagudang/3cetak_keluar.jpg",
+              ],
+            },
+            {
+              label: "3print_keluar",
+              candidates: [
+                "gambarantarmukagudang/3print_keluar.png",
+                "gambarantarmukagudang/3print_keluar.jpg",
+              ],
+            },
+            {
+              label: "4form_barang",
+              candidates: [
+                "gambarantarmukagudang/4form_barang.png",
+                "gambarantarmukagudang/4form_barang.jpg",
+              ],
+            },
+            {
+              label: "4tabel_barang",
+              candidates: [
+                "gambarantarmukagudang/4tabel_barang.png",
+                "gambarantarmukagudang/4tabel_barang.jpg",
+              ],
+            },
+            {
+              label: "4cetakbarang",
+              candidates: [
+                "gambarantarmukagudang/4cetakbarang.png",
+                "gambarantarmukagudang/4cetakbarang.jpg",
+              ],
+            },
+            {
+              label: "4print_barang",
+              candidates: [
+                "gambarantarmukagudang/4print_barang.png",
+                "gambarantarmukagudang/4print_barang.jpg",
+              ],
+            },
+          ],
+        },
+        skripsi: {
+          title: "Skripsi CNN — Deteksi Kesegaran Udang Tiger",
+          shots: [
+            {
+              label: "confussionmatrix.png",
+              candidates: ["gambarantarmukaskripsi/confussionmatrix.png"],
+            },
+            {
+              label: "ujitunggal.png",
+              candidates: ["gambarantarmukaskripsi/ujitunggal.png"],
+            },
+          ],
+        },
+      };
+
+      let currentGalleryKey = "gudang";
+      let currentShotIndex = 0;
+
+      const projModal = document.getElementById("project-modal");
+      const projImg = document.getElementById("proj-modal-img");
+      const projThumbList = document.getElementById("proj-thumb-list");
+
+      function loadCandidateImage(imgEl, candidates, idx = 0) {
+        if (!imgEl || !candidates || idx >= candidates.length) return;
+        imgEl.onerror = () => {
+          if (idx + 1 < candidates.length) {
+            loadCandidateImage(imgEl, candidates, idx + 1);
+          }
+        };
+        imgEl.src = candidates[idx];
+      }
+
+      function renderProjectGallery() {
+        const gallery = projectGalleries[currentGalleryKey];
+        if (!gallery) return;
+        const shot = gallery.shots[currentShotIndex];
+        if (!shot) return;
+
+        document.getElementById("proj-modal-title").textContent = gallery.title;
+        document.getElementById("proj-modal-caption").textContent =
+          `File: ${shot.label}`;
+        document.getElementById("proj-modal-counter").textContent =
+          `${currentShotIndex + 1} / ${gallery.shots.length}`;
+
+        loadCandidateImage(projImg, shot.candidates, 0);
+
+        if (projThumbList) {
+          projThumbList.innerHTML = gallery.shots
+            .map((item, i) => {
+              const activeClass =
+                i === currentShotIndex
+                  ? "border-purple-500 bg-purple-500/15 text-purple-500 dark:text-purple-300"
+                  : "border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300";
+              return `<button type="button" onclick="selectProjectShot(${i})" class="shrink-0 px-3 py-1.5 rounded-lg border font-display text-xs font-bold cursor-pointer ${activeClass}">${item.label}</button>`;
+            })
+            .join("");
+        }
+      }
+
+      function openProjectGallery(key) {
+        currentGalleryKey = key;
+        currentShotIndex = 0;
+        renderProjectGallery();
+        if (projModal) {
+          projModal.classList.remove("hidden");
+          projModal.classList.add("flex");
+        }
+      }
+
+      function selectProjectShot(i) {
+        currentShotIndex = i;
+        renderProjectGallery();
+      }
+
+      function navigateProjectShot(step) {
+        const gallery = projectGalleries[currentGalleryKey];
+        if (!gallery) return;
+        currentShotIndex =
+          (currentShotIndex + step + gallery.shots.length) %
+          gallery.shots.length;
+        renderProjectGallery();
+      }
+
+      function closeProjectModal() {
+        if (!projModal) return;
+        projModal.classList.add("hidden");
+        projModal.classList.remove("flex");
+      }
+
+      if (projModal) {
+        projModal.addEventListener("click", (e) => {
+          if (e.target === projModal) closeProjectModal();
+        });
+      }
+
+      // 5. Certificate Modal (4 Sertifikat)
+      const certificates = [
+        {
+          header: "SERTIFIKAT 1 / 4 — WISUDAWAN & LULUSAN TERBAIK",
+          title: "Sertifikat Wisudawan & Lulusan Terbaik",
+          issuer:
+            "STMIK PPKIA Tarakanita Rahmawati • S1 Sistem Informasi • IPK 3.74",
+          desc: "Penghargaan akademik atas capaian S1 Sistem Informasi (2022–2026) dengan IPK 3.74, yudisium Februari 2026, wisuda November 2026, dan predikat A pada skripsi.",
+          img: "gambar/sertifikatlulusanterbaik.jpg",
+        },
+        {
+          header: "SERTIFIKAT 2 / 4 — ENGLISH PROFICIENCY TEST",
+          title: "English Proficiency Test (EPT)",
+          issuer: "Golden English • Skor 433",
+          desc: "Sertifikat English Proficiency Test dari Golden English dengan capaian skor 433.",
+          img: "gambar/sertifikatept.png",
+        },
+        {
+          header: "SERTIFIKAT 3 / 4 — UKK",
+          title: "Uji Kompetensi Keahlian (UKK)",
+          issuer: "Sertifikasi Kompetensi Keahlian (2020)",
+          desc: "Sertifikat Uji Kompetensi Keahlian (UKK) sebagai bukti kompetensi keahlian vokasi.",
+          img: "gambar/sertifikatukk.jpg",
+        },
+        {
+          header: "SERTIFIKAT 4 / 4 — MAGANG PT PELINDO 4",
+          title: "Magang PT Pelindo 4 Tarakan",
+          issuer: "PT Pelindo 4 Tarakan • Praktik Kerja Lapangan (6 Bulan)",
+          desc: "Mencatat PPKB kapal yang akan bersandar di pelabuhan, mengarsipkan surat PPKB kapal, serta mencetak dan mengarsipkan nota tagihan pandu tunda kapal.",
+          img: "gambar/sertifikatpelindo.jpg",
+        },
+      ];
+
+      let certIndex = 0;
+      const certModal = document.getElementById("certificate-modal");
+      const certImg = document.getElementById("cert-modal-img");
+      const certMissing = document.getElementById("cert-modal-missing");
+      const certPath = document.getElementById("cert-modal-path");
+
+      function renderCert() {
+        const item = certificates[certIndex];
+        if (!item) return;
+
+        document.getElementById("cert-modal-header").textContent = item.header;
+        document.getElementById("cert-modal-title").textContent = item.title;
+        document.getElementById("cert-modal-issuer").textContent = item.issuer;
+        document.getElementById("cert-modal-desc").textContent = item.desc;
+        document.getElementById("cert-modal-counter").textContent =
+          `${certIndex + 1} / ${certificates.length}`;
+
+        if (certMissing) certMissing.classList.add("hidden");
+        if (certPath) certPath.textContent = item.img;
+
+        if (certImg) {
+          certImg.classList.remove("hidden");
+          certImg.src = item.img;
+        }
+      }
+
+      function openCertificateModal(idx) {
+        certIndex = idx;
+        renderCert();
+        if (certModal) {
+          certModal.classList.remove("hidden");
+          certModal.classList.add("flex");
+        }
+      }
+
+      function closeCertificateModal() {
+        if (certModal) {
+          certModal.classList.add("hidden");
+          certModal.classList.remove("flex");
+        }
+      }
+
+      function navigateCertificate(step) {
+        certIndex =
+          (certIndex + step + certificates.length) % certificates.length;
+        renderCert();
+      }
+
+      if (certModal) {
+        certModal.addEventListener("click", (e) => {
+          if (e.target === certModal) closeCertificateModal();
+        });
+      }
+
+      lucide.createIcons();
+    </script>
+  </body>
+</html>
